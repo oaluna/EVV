@@ -1,3 +1,28 @@
+/* font-family*/
+@import url('https://fonts.googleapis.com/css2?family=Kanit:wght@300&family=Metrophobic&family=Poppins:wght@300&display=swap');
+
+
+body {
+  margin: 0;
+  
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, h4, h5, h6 {
+	font-family: 'Kanit', sans-serif;
+}
+p, a, label {
+	font-family: 'Poppins', sans-serif;
+}
+span, li, option {
+	font-family: 'Metrophobic', sans-serif;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
 .dashboard-container {
     display: flex;
     flex-direction: row;

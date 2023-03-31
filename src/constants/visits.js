@@ -1,4 +1,4 @@
-const all_orders = [
+const all_visits = [
     {
         id: "#1236",
         date: "1 Nov, 10:20 AM",
@@ -6,9 +6,9 @@ const all_orders = [
         first_name: "Michael",
         last_name: "Lawson",
         avatar: "https://reqres.in/img/faces/7-image.jpg",
+        status: "Paid",
         product: "Phone Case Pink  x 2",
         price: "50,00",
-        status: "Paid"
     },
     {
         id: "#1235",
@@ -133,4 +133,4 @@ const all_orders = [
     }
 ]
 
-export default all_orders;
+export default all_visits;

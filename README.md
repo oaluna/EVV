@@ -94,10 +94,10 @@ React-Dashboard
     │       ├── sidebar-item.jsx
     │       └── styles.css
     ├── constants
-    │   ├── orders.js
+    │   ├── visits.js
     │   └── sidebar-menu.js
     ├── pages
-    │   ├── Orders
+    │   ├── Visits
     │   │   └── index.jsx
     │   └── styles.css
     └── utils
