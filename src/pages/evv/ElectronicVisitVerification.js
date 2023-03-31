@@ -1,162 +1,293 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 
 // Replace with actual URL for the API endpoint
-const BASE_URL = 'https://api.emednytest.io/claims/';
 
 const ElectronicVisitVerification = () => {
-  const [submitterId, setSubmitterId] = useState(''); // Default submitter id state
-  const [transactionId, setTransactionId] = useState(''); // Default transaction id state
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [token, setToken] = useState('');
-  const [passwordNew, setPasswordNew] = useState('');
-  const [passwordOld, setPasswordOld] = useState('');
-  const [visit, setVisit] = useState({}); // Default visit object state
+  const [submitterId, setSubmitterId] = useState(""); // Default submitter id state
+  const [transactionId, setTransactionId] = useState(""); // Default transaction id state
+  const [dateOfBirth, setDateOfBirth] = useState("");
+  const [nationalProviderId, setNationalProviderId] = useState("");
+  const [providerId, setProviderId] = useState("");
+  const [providerAddress, setProviderAddress] = useState("");
+  const [taxPayerId, setTaxPayerId] = useState("");
+  const [procedureCode, setProcedureCode] = useState("");
+  const [procedureModCode, setProcedureModCode] = useState("");
+  const [providerRateCode, setProviderRateCode] = useState("");
+  const [serviceStartDateTime, setServiceStartDateTime] = useState("");
+  const [serviceDateEndTime, setServiceEndDateTime] = useState("");
+  const [serviceStartLocation, setServiceStartLocation] = useState("");
+  const [serviceEndLocation, setServiceEndLocation] = useState("");
+  const [serviceProviderFirstName, setServiceProviderFirstName] = useState("");
+  const [serviceProviderLastName, setServiceProviderLastName] = useState("");
+  const [serviceProviderPhoneNumber, setServiceProviderPhoneNumber] =
+    useState("");
+  const [caregiverId, setCaregiverId] = useState("");
+  const [passwordNew, setPasswordNew] = useState("");
+  const [passwordOld, setPasswordOld] = useState("");
+  const [visit, setVisit] = useState({
+    transactionId: "",
+    memberId: "",
+    dateOfBirth: "",
+    providerName: "",
+    nationalProviderId: "",
+    providerId: "",
+    taxPayerId: "",
+    providerAddress: {
+      address1: "",
+      address2: "",
+      city: "",
+      state: "",
+      zip: "",
+    },
+    providerRateCode: "",
+    procedureCode: "",
+    procedureModCode: [],
+    serviceStartDateTime: "",
+    serviceEndDateTime: "",
+    serviceStartLocation: "",
+    serviceEndLocation: "",
+    serviceProviderFirstName: "",
+    serviceProviderLastName: "",
+    serviceProviderPhoneNumber: "",
+    caregiverId: "",
+  }); // Default visit object state
   const [error, setError] = useState(null); // Default error state
-
-  // Login API call
-  const handleLogin = async () => {
-    try {
-      const response = await axios.post(`${BASE_URL}/login`, { username, password });
-      setToken(response.data.token);
-    } catch (error) {
-      setError(error.response.data);
-    }
-  };
-
-  // Verify token API call
-  const handleVerifyToken = async () => {
-    try {
-      const response = await axios.post(`${BASE_URL}/verifyToken`, { token });
-      console.log(response.data);
-    } catch (error) {
-      setError(error.response.data);
-    }
-  };
-
   // Change password API call
   const handleChangePassword = async () => {
     try {
-      await axios.post(`${BASE_URL}/changePassword`, { passwordNew, passwordOld }, { headers: { Authorization: `Bearer ${token}` } });
-      setPasswordNew('');
-      setPasswordOld('');
+      await axios.post(
+        `${process.env.BASE_URL}/changePassword`,
+        { passwordNew, passwordOld },
+        { headers: { Authorization: `Bearer ${process.env.EMEDNY_API_KEY}` } }
+      );
+      setPasswordNew("");
+      setPasswordOld("");
       setError(null);
     } catch (error) {
       setError(error.response.data);
     }
   };
-
   // Batch Load EVV Records API call
-  const handleBatchLoadEVVRecords = async () => {
+  const handleBatchLoadEVVRecords = async (e) => {
+		e.preventDefault();
     try {
       await axios.post(
-        `${BASE_URL}/claims/submitter/${submitterId}/evv`,
+        `${process.env.BASE_URL}/claims/submitter/${submitterId}/evv`,
         visit,
-        { headers: { Authorization: `Bearer ${token}` } },
+        { headers: { Authorization: `Bearer ${process.env.EMEDNY_API_KEY}` } }
       );
-      setVisit({});
+      setVisit({ ...visit, [e.target.name]: e.target.value});
       setError(null);
     } catch (error) {
-      setError(error.response.data)   }
+      setError(error.response.data);
+    }
   };
-
   // Get EVV Record API call
   const handleGetEVVRecord = async () => {
     try {
-      const response = await axios.get(`${BASE_URL}/claims/submitter/${submitterId}/evv/${transactionId}`, { headers: { Authorization: `Bearer ${token}` } });
+      const response = await axios.get(
+        `${process.env.BASE_URL}/claims/submitter/${submitterId}/evv/${transactionId}`,
+        { headers: { Authorization: `Bearer ${process.env.EMEDNY_API_KEY}` } }
+      );
       setVisit(response.data);
       setError(null);
-    } catch (error) {      setError(error.response.data);
+    } catch (error) {
+      setError(error.response.data);
     }
   };
-
   // Delete EVV Record API call
-  const handleDeleteEVVRecord = async () => {
+  const handleDeleteEVVRecord = async (e) => {
     try {
-      await axios.delete(`${BASE_URL}/claims/submitter/${submitterId}/evv/${transactionId}`, { headers: { Authorization: `Bearer ${token}` } });
-      setVisit({});
+      await axios.delete(
+        `${process.env.BASE_URL}/claims/submitter/${submitterId}/evv/${transactionId}`,
+        { headers: { Authorization: `Bearer ${process.env.EMEDNY_API_KEY}` } }
+      );
+      setVisit(visit);
       setError(null);
     } catch (error) {
       setError(error.response.data);
     }
   };
-
   // New EVV Record API call
-  const handleNewEVVRecord = async () => {
+  const handleNewEVVRecord = async (e) => {
     try {
       await axios.put(
-        `${BASE_URL}/claims/submitter/${submitterId}/evv/${transactionId}`,
+        `${process.env.BASE_URL}/claims/submitter/${submitterId}/evv/${transactionId}`,
         visit,
-        { headers: { Authorization: `Bearer ${token}` } },
+        { headers: { Authorization: `Bearer ${process.env.EMEDNY_API_KEY}` } }
       );
-      setVisit({});
+      setVisit({ ...visit, [e.target.name]: e.target.value});
       setError(null);
     } catch (error) {
       setError(error.response.data);
     }
   };
-
   useEffect(() => {
     setError(null);
-  }, [submitterId, transactionId, visit, token, passwordNew, passwordOld]); // Reset error state when these values have changed
+  }, [
+    submitterId,
+    transactionId,
+    nationalProviderId,
+    providerId,
+    providerAddress,
+    taxPayerId,
+    procedureCode,
+    procedureModCode,
+    providerRateCode,
+    serviceStartDateTime,
+    serviceDateEndTime,
+    serviceStartLocation,
+    serviceEndLocation,
+    serviceProviderFirstName,
+    serviceProviderLastName,
+    serviceProviderPhoneNumber,
+    caregiverId,
+    visit,
+    passwordNew,
+    passwordOld,
+  ]); // Reset error state when these values have changed
 
   return (
-    <div>
-      <h6>Login API</h6>
+    <div className="p-5 w-full h-full">
       <div>
-        <input type="text" placeholder="Username" value={username} onChange={(event) => setUsername(event.target.value)} />
-        <input type="password" placeholder="Password" value={password} onChange={(event) => setPassword(event.target.value)} />
-        <button type="button" onClick={handleLogin}>Login</button>
+        <h6 className="text-lg">Login API</h6>
       </div>
-      <h6>Verify Token API</h6>
       <div>
-        <input type="text" placeholder="Token" value={token} onChange={(event) => setToken(event.target.value)} />
-        <button type="button" onClick={handleVerifyToken}>Verify Token</button>
+        <h6>Change Password API</h6>
+        <div>
+          <input
+            type="password"
+            placeholder="New Password"
+            value={passwordNew}
+            onChange={(event) => setPasswordNew(event.target.value)}
+          />
+          <input
+            type="password"
+            placeholder="Old Password"
+            value={passwordOld}
+            onChange={(event) => setPasswordOld(event.target.value)}
+          />
+          <button type="button" onClick={handleChangePassword}>
+            Change Password
+          </button>
+        </div>
+        <h6>Batch Load EVV Records API</h6>
+        <div>
+          <input
+            type="text"
+            placeholder="Submitter Id"
+            value={submitterId}
+            onChange={(event) => setSubmitterId(event.target.value)}
+          />
+          <input
+            type="text"
+            placeholder="Visit Id"
+            value={visit.id ?? ""}
+            onChange={(event) => setVisit({ ...visit, id: event.target.value })}
+          />
+          <input
+            type="text"
+            placeholder="Client Id"
+            value={visit.clientId ?? ""}
+            onChange={(event) =>
+              setVisit({ ...visit, clientId: event.target.value })
+            }
+          />
+          <input
+            type="text"
+            placeholder="Employee Id"
+            value={visit.employeeId ?? ""}
+            onChange={(event) =>
+              setVisit({ ...visit, employeeId: event.target.value })
+            }
+          />
+          <button type="button" onClick={handleBatchLoadEVVRecords}>
+            Batch Load EVV Records
+          </button>
+        </div>
+        <h6>Get EVV Record API</h6>
+        <div>
+          <input
+            type="text"
+            placeholder="Submitter Id"
+            value={submitterId}
+            onChange={(event) => setSubmitterId(event.target.value)}
+          />
+          <input
+            type="text"
+            placeholder="Transaction Id"
+            value={transactionId}
+            onChange={(event) => setTransactionId(event.target.value)}
+          />
+          <button type="button" onClick={handleGetEVVRecord}>
+            Get EVV Record
+          </button>
+        </div>
+        {Object.keys(visit).length > 0 && (
+          <>
+            <h6>EVV Record</h6>
+            <div>
+              <p>Id: {visit.id}</p>
+              <p>Client Id: {visit.clientId}</p>
+              <p>Employee Id: {visit.employeeId}</p>
+            </div>
+          </>
+        )}
+        <h6>Delete EVV Record API</h6>
+        <div>
+          <input
+            type="text"
+            placeholder="Submitter Id"
+            value={submitterId}
+            onChange={(event) => setSubmitterId(event.target.value)}
+          />
+          <input
+            type="text"
+            placeholder="Transaction Id"
+            value={transactionId}
+            onChange={(event) => setTransactionId(event.target.value)}
+          />
+          <button type="button" onClick={handleDeleteEVVRecord}>
+            Delete EVV Record
+          </button>
+        </div>
+        \n <h6>New EVV Record API</h6>\n{" "}
+        <div>
+          <input
+            type="text"
+            placeholder="Submitter Id"
+            value={submitterId}
+            onChange={(event) => setSubmitterId(event.target.value)}
+          />
+          <input
+            type="text"
+            placeholder="Transaction Id"
+            value={transactionId}
+            onChange={(event) => setTransactionId(event.target.value)}
+          />
+          <input
+            type="text"
+            placeholder="Client Id"
+            value={visit.clientId ?? ""}
+            onChange={(event) =>
+              setVisit({ ...visit, clientId: event.target.value })
+            }
+          />
+          <input
+            type="text"
+            placeholder="Employee Id"
+            value={visit.employeeId ?? ""}
+            onChange={(event) =>
+              setVisit({ ...visit, employeeId: event.target.value })
+            }
+          />
+          <button type="button" onClick={handleNewEVVRecord}>
+            New EVV Record
+          </button>
+        </div>
+        {error && <p>Error: {error}</p>}
       </div>
-      <h6>Change Password API</h6>
-      <div>
-        <input type="password" placeholder="New Password" value={passwordNew} onChange={(event) => setPasswordNew(event.target.value)} />
-        <input type="password" placeholder="Old Password" value={passwordOld} onChange={(event) => setPasswordOld(event.target.value)} />
-        <button type="button" onClick={handleChangePassword}>Change Password</button>
-      </div>
-      <h6>Batch Load EVV Records API</h6>
-      <div>
-        <input type="text" placeholder="Submitter Id" value={submitterId} onChange={(event) => setSubmitterId(event.target.value)} />
-        <input type="text" placeholder="Visit Id" value={visit.id ?? ''} onChange={(event) => setVisit({ ...visit, id: event.target.value })} />
-        <input type="text" placeholder="Client Id" value={visit.clientId ?? ''} onChange={(event) => setVisit({ ...visit, clientId: event.target.value })} />
-        <input type="text" placeholder="Employee Id" value={visit.employeeId ?? ''} onChange={(event) => setVisit({ ...visit, employeeId: event.target.value })} />
-        <button type="button" onClick={handleBatchLoadEVVRecords}>Batch Load EVV Records</button>
-      </div>
-      <h6>Get EVV Record API</h6>
-      <div>
-        <input type="text" placeholder="Submitter Id" value={submitterId} onChange={(event) => setSubmitterId(event.target.value)} />
-        <input type="text" placeholder="Transaction Id" value={transactionId} onChange={(event) => setTransactionId(event.target.value)} />
-        <button type="button" onClick={handleGetEVVRecord}>Get EVV Record</button>
-      </div>
-      {Object.keys(visit).length > 0 && (
-        <>
-          <h6>EVV Record</h6>
-          <div>
-            <p>Id: {visit.id}</p>
-            <p>Client Id: {visit.clientId}</p>
-            <p>Employee Id: {visit.employeeId}</p>
-          </div>
-        </>
-      )}
-      <h6>Delete EVV Record API</h6>
-      <div>
-        <input type="text" placeholder="Submitter Id" value={submitterId} onChange={(event) => setSubmitterId(event.target.value)} />
-        <input type="text" placeholder="Transaction Id" value={transactionId} onChange={(event) => setTransactionId(event.target.value)} />
-        <button type="button" onClick={handleDeleteEVVRecord}>Delete EVV Record</button>
-      </div>\n      <h6>New EVV Record API</h6>\n      <div>
-        <input type="text" placeholder="Submitter Id" value={submitterId} onChange={(event) => setSubmitterId(event.target.value)} />
-        <input type="text" placeholder="Transaction Id" value={transactionId} onChange={(event) => setTransactionId(event.target.value)} />
-        <input type="text" placeholder="Client Id" value={visit.clientId ?? ''} onChange={(event) => setVisit({ ...visit, clientId: event.target.value })} />
-        <input type="text" placeholder="Employee Id" value={visit.employeeId ?? ''} onChange={(event) => setVisit({ ...visit, employeeId: event.target.value })} />
-        <button type="button" onClick={handleNewEVVRecord}>New EVV Record</button>
-      </div>
-      {error && <p>Error: {error}</p>}
     </div>
   );
 };
