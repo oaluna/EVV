@@ -1,0 +1,562 @@
+[
+  {
+    "openapi": "3.0.0",
+    "info": {
+      "title": "Electronic Visit Verification API",
+      "version": "1.0",
+      "description": "This service will allow Healthcare Providers,Issuers and Vendors to upload the Electronic Visit Verification information to eMedNY to comply with 21st Century Cures Act .",
+      "termsOfService": "http://developer.emedny.io/portal/terms",
+      "contact": {
+        "name": "API Support",
+        "url": "https://www.emedny.org/contacts/emedny.aspx",
+        "email": "api-support@emedny.org"
+      }
+    },
+    "tags": [
+      {
+        "name": "New EVV Record",
+        "description": "Create a new EVV Record, will overwrite existing records with the same transaction-id and submitter id "
+      },
+      {
+        "name": "Batch Load EVV Records",
+        "description": "Batch Electronic Visit Verification Entry, Batch size limited to 100 per Call"
+      },
+      {
+        "name": "Delete an EVV Record",
+        "description": "Delete an existing EVV Record"
+      },
+      {
+        "name": "Retrieve EVV Record",
+        "description": "Get and existing EVV Record using the transactionId"
+      }
+    ],
+    "servers": [
+      {
+        "description": "Test environment",
+        "url": "https://api.emednytest.io/emedny"
+      }
+    ],
+    "paths": {
+      "/claims/submitter/{submitterId}/evv": {
+        "post": {
+          "tags": ["Batch Load EVV Records"],
+          "responses": {
+            "200": {
+              "description": "OK"
+            },
+            "206": {
+              "description": "Partial Content",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/components/schemas/error"
+                    }
+                  }
+                }
+              }
+            },
+            "401": {
+              "description": "Unauthorized",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/components/schemas/error"
+                    }
+                  }
+                }
+              }
+            },
+            "403": {
+              "description": "Forbidden",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/components/schemas/error"
+                    }
+                  }
+                }
+              }
+            },
+            "500": {
+              "description": "Internal Server Error"
+            }
+          },
+          "operationId": "POST_claims-submitter-submitterId-evv",
+          "requestBody": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/payload"
+                }
+              }
+            },
+            "required": true
+          },
+          "security": [
+            {
+              "api_key": [
+                "eyJvcmciOiI1ZjExZWYwYmI2YjcwYzAwMDEzZTg5YjQiLCJpZCI6IjRlNDExZTQxMGExYTQwNDc5MWFhNTk3MThkZTYxNjE1IiwiaCI6Im11cm11cjY0In0="
+              ]
+            }
+          ]
+        },
+        "parameters": [
+          {
+            "name": "submitterId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ]
+      },
+      "/claims/submitter/{submitterId}/evv/{transactionId}": {
+        "get": {
+          "tags": ["Retrieve EVV Record"],
+          "responses": {
+            "200": {
+              "description": "OK",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/visit"
+                  }
+                }
+              }
+            },
+            "400": {
+              "description": "Bad Request",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/error"
+                  }
+                }
+              }
+            },
+            "401": {
+              "description": "Unauthorized",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/error"
+                  }
+                }
+              }
+            },
+            "403": {
+              "description": "Forbidden",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/error"
+                  }
+                }
+              }
+            },
+            "404": {
+              "description": "Not Found",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/error"
+                  }
+                }
+              }
+            },
+            "500": {
+              "description": "Internal Server Error"
+            }
+          },
+          "description": "Retrieve",
+          "operationId": "GET_claims-submitter-submitterId-evv-transactionId",
+          "security": [
+            {
+              "api_key": [
+                "eyJvcmciOiI1ZjExZWYwYmI2YjcwYzAwMDEzZTg5YjQiLCJpZCI6IjRlNDExZTQxMGExYTQwNDc5MWFhNTk3MThkZTYxNjE1IiwiaCI6Im11cm11cjY0In0="
+              ]
+            }
+          ]
+        },
+        "delete": {
+          "tags": ["Delete an EVV Record"],
+          "responses": {
+            "204": {
+              "description": "No Content"
+            },
+            "400": {
+              "description": "Bad Request",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/error"
+                  }
+                }
+              }
+            },
+            "401": {
+              "description": "Unauthorized",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/error"
+                  }
+                }
+              }
+            },
+            "403": {
+              "description": "Forbidden",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/error"
+                  }
+                }
+              }
+            },
+            "404": {
+              "description": "Not Found",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/error"
+                  }
+                }
+              }
+            },
+            "500": {
+              "description": "Internal Server Error"
+            }
+          },
+          "operationId": "DELETE_claims-submitter-submitterId-evv-transactionId",
+          "security": [
+            {
+              "api_key": []
+            }
+          ]
+        },
+        "put": {
+          "tags": ["New EVV Record"],
+          "responses": {
+            "200": {
+              "description": "OK"
+            },
+            "201": {
+              "description": "Created"
+            },
+            "400": {
+              "description": "Bad Request",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/error"
+                  }
+                }
+              }
+            },
+            "401": {
+              "description": "Unauthorized",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/error"
+                  }
+                }
+              }
+            },
+            "403": {
+              "description": "Forbidden",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/error"
+                  }
+                }
+              }
+            },
+            "500": {
+              "description": "Internal Server Error"
+            }
+          },
+          "operationId": "PUT_claims-submitter-submitterId-evv-transactionId",
+          "requestBody": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/visit"
+                }
+              }
+            },
+            "required": true
+          },
+          "security": [
+            {
+              "api_key": [
+                "eyJvcmciOiI1ZjExZWYwYmI2YjcwYzAwMDEzZTg5YjQiLCJpZCI6IjRlNDExZTQxMGExYTQwNDc5MWFhNTk3MThkZTYxNjE1IiwiaCI6Im11cm11cjY0In0="
+              ]
+            }
+          ]
+        },
+        "parameters": [
+          {
+            "name": "submitterId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "transactionId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ]
+      }
+    },
+    "components": {
+      "schemas": {
+        "visit": {
+          "example": {
+            "transactionId": "8ec389ea-dcf6-4584-85ef-8a06a8653ef2",
+            "memberId": "123456AB",
+            "dateOfBirth": "2015-05-23",
+            "providerName": "Upstate Hostpital LLC.",
+            "nationalProviderId": "1234567890",
+            "providerId": "12345678",
+            "taxPayerId": "123456789",
+            "providerAddress": {
+              "address1": "Uptown St1",
+              "address2": "Uptown St2",
+              "city": "Albany",
+              "state": "NY",
+              "zip": "12204"
+            },
+            "providerRateCode": "1234",
+            "procedureCode": "A1234",
+            "procedureModCode": ["AB", "CD", "EF", "GH"],
+            "serviceStartDateTime": "2015-07-04T08:00:01",
+            "serviceEndDateTime": "2015-07-04T09:00:00",
+            "serviceStartLocation": "Home",
+            "serviceEndLocation": "Community",
+            "serviceProviderFirstName": "George",
+            "serviceProviderLastName": "Washington",
+            "serviceProviderPhoneNumber": "7879849883",
+            "caregiverId": "123456789"
+          },
+          "type": "object",
+          "properties": {
+            "transactionId": {
+              "minLength": 1,
+              "maxLength": 150,
+              "description": "Unique transaction id used by the EVV vendor. 1) This ID Must be unique within a submitter 2) Could be used to track back to the submitter's source for audit control 3) we recommed using a UUID Or GUID Complaint ID if available.",
+              "type": "string"
+            },
+            "memberId": {
+              "minLength": 8,
+              "maxLength": 8,
+              "description": "Medicaid Id for the recipient receiving the service.",
+              "type": "string"
+            },
+            "dateOfBirth": {
+              "description": "Date of Birth of the recipient receiving the service",
+              "type": "string",
+              "format": "date"
+            },
+            "providerName": {
+              "minLength": 1,
+              "maxLength": 35,
+              "description": "Provider Name is the name of a provider of Medicaid services as used on official State records",
+              "type": "string"
+            },
+            "nationalProviderId": {
+              "minLength": 10,
+              "maxLength": 10,
+              "description": "National Provider Identifier (NPI) is the nationally recognized provider identifier assigned by the Center for Medicare & Medicaid Services (CMS).",
+              "type": "string"
+            },
+            "providerId": {
+              "minLength": 8,
+              "maxLength": 8,
+              "description": "MMIS Identifier is a unique number generated by the eMedNY system and assigned to each provider enrolled to provide services to Members of the Medicaid program. This number is the primary method of identifying a provider.",
+              "type": "string"
+            },
+            "taxPayerId": {
+              "description": "Tax Identifier of the provider or Federal Employer Identification Number (FEIN). format:#########",
+              "type": "string"
+            },
+            "providerAddress": {
+              "description": "Providers most current address",
+              "$ref": "#/components/schemas/address"
+            },
+            "providerRateCode": {
+              "minLength": 4,
+              "maxLength": 4,
+              "description": "Rate Code specifies a medical service or product that utilizes a rate reimbursement technique processed by the eMedNY system. All Institutional claims are paid by rate code and they include Clinic, Managed Care, Inpatient, ICF/DD, Child Care, Home Health and Nursing Home claims.",
+              "type": "string"
+            },
+            "procedureCode": {
+              "minLength": 5,
+              "maxLength": 5,
+              "description": "Procedure Code for the service rendered to the recipient by the provider",
+              "type": "string"
+            },
+            "procedureModCode": {
+              "description": "Array of Two character string modifying the procedure code for the service rendered to the recipient by the provider",
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "serviceStartDateTime": {
+              "type": "string",
+              "description": "Begin date timestamp of the recipient receiving the service."
+            },
+            "serviceEndDateTime": {
+              "type": "string",
+              "description": "End date timestamp of the recipient receiving the service."
+            },
+            "serviceStartLocation": {
+              "minLength": 4,
+              "maxLength": 9,
+              "description": "Service start location describes the place where the visit began at clock-in (Home or Community).",
+              "enum": ["Home", "Community"],
+              "type": "string"
+            },
+            "serviceEndLocation": {
+              "minLength": 4,
+              "maxLength": 9,
+              "description": "Service end location describes the place where the visit concluded at clock-out (Home or Community).",
+              "enum": ["Home", "Community"],
+              "type": "string"
+            },
+            "serviceProviderFirstName": {
+              "minLength": 1,
+              "maxLength": 35,
+              "description": "First name of the servicing worker",
+              "type": "string"
+            },
+            "serviceProviderLastName": {
+              "minLength": 1,
+              "maxLength": 60,
+              "description": "Last name of the servicing worker",
+              "type": "string"
+            },
+            "serviceProviderPhoneNumber": {
+              "description": "Phone Number of the service worker. format:##########",
+              "type": "string"
+            },
+            "caregiverId": {
+              "minLength": 1,
+              "maxLength": 128,
+              "description": "The Caregiver ID is the ID used to uniquely identify the person providing the service within the Provider’s EVV System and/or solution. format:#########",
+              "type": "string"
+            }
+          },
+          "required": [
+            "transactionId",
+            "memberId",
+            "dateOfBirth",
+            "taxPayerId",
+            "serviceStartDateTime",
+            "serviceEndDateTime",
+            "serviceStartLocation",
+            "serviceEndLocation",
+            "serviceProviderFirstName",
+            "serviceProviderLastName"
+          ]
+        },
+        "payload": {
+          "type": "object",
+          "properties": {
+            "visits": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/visit"
+              }
+            }
+          },
+          "required": ["visits"]
+        },
+        "error": {
+          "type": "object",
+          "properties": {
+            "transactionId": {
+              "type": "string",
+              "description": "Unique transaction id used by the EVV vendor to submit the transaction",
+              "example": "80b755d8-ee01-4bc7-b8a5-5e5b4cc6862c"
+            },
+            "error-details": {
+              "type": "array",
+              "items": {
+                "description": "Error detail",
+                "type": "object",
+                "properties": {
+                  "code": {
+                    "type": "string",
+                    "description": "Error Code",
+                    "example": "A12345"
+                  },
+                  "message": {
+                    "type": "string",
+                    "description": "Error Messsage",
+                    "example": "Unable to process the request"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "address": {
+          "type": "object",
+          "properties": {
+            "address1": {
+              "description": "Building Number or Street Line-1",
+              "type": "string"
+            },
+            "address2": {
+              "description": "Building Number or Street Line-2",
+              "type": "string"
+            },
+            "city": {
+              "description": "City",
+              "type": "string"
+            },
+            "state": {
+              "description": "State",
+              "type": "string"
+            },
+            "zip": {
+              "description": "Zip Code",
+              "type": "string"
+            }
+          },
+          "required": ["address1", "city", "state", "zip"]
+        }
+      },
+      "responses": {},
+      "examples": {},
+      "requestBodies": {},
+      "headers": {},
+      "securitySchemes": {
+        "api_key": {
+          "type": "apiKey",
+          "name": "api_key",
+          "in": "header"
+        }
+      },
+      "links": {},
+      "callbacks": {}
+    }
+  }
+]

@@ -5,7 +5,7 @@ import SettingsIcon from '../../assets/icons/settings.svg';
 
 function DashboardHeader ({ btnText, onClick }) {
     return(
-        <div className='dashbord-header-container'>
+        <div className='dashbord-header-container from-[#0e1862]   to-[#29539B]'>
             {btnText &&  
                 <button className='dashbord-header-btn' onClick={onClick}>{btnText}</button>
             }

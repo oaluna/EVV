@@ -70,14 +70,14 @@ const ElectronicVisitVerification = () => {
   };
   // Batch Load EVV Records API call
   const handleBatchLoadEVVRecords = async (e) => {
-		e.preventDefault();
+    e.preventDefault();
     try {
       await axios.post(
         `${process.env.BASE_URL}/claims/submitter/${submitterId}/evv`,
         visit,
         { headers: { Authorization: `Bearer ${process.env.EMEDNY_API_KEY}` } }
       );
-      setVisit({ ...visit, [e.target.name]: e.target.value});
+      setVisit({ ...visit, [e.target.name]: e.target.value });
       setError(null);
     } catch (error) {
       setError(error.response.data);
@@ -117,7 +117,7 @@ const ElectronicVisitVerification = () => {
         visit,
         { headers: { Authorization: `Bearer ${process.env.EMEDNY_API_KEY}` } }
       );
-      setVisit({ ...visit, [e.target.name]: e.target.value});
+      setVisit({ ...visit, [e.target.name]: e.target.value });
       setError(null);
     } catch (error) {
       setError(error.response.data);
@@ -157,36 +157,45 @@ const ElectronicVisitVerification = () => {
         <h6>Change Password API</h6>
         <div>
           <input
+            className="border border-1 border-gray-400 rounded-sm text-xs px-3 py-1 mx-2"
             type="password"
             placeholder="New Password"
             value={passwordNew}
             onChange={(event) => setPasswordNew(event.target.value)}
           />
           <input
+            className="border border-1 border-gray-400 rounded-sm text-xs px-3 py-1 mx-2"
             type="password"
             placeholder="Old Password"
             value={passwordOld}
             onChange={(event) => setPasswordOld(event.target.value)}
           />
-          <button type="button" onClick={handleChangePassword}>
+          <button
+            className="bg-gradient-to-tr from-[#0e1862]   to-[#29539B] px-3 py-1 text-gray-50 rounded-md shadow-sm"
+            type="button"
+            onClick={handleChangePassword}
+          >
             Change Password
           </button>
         </div>
         <h6>Batch Load EVV Records API</h6>
-        <div>
+        <div className="flex flex-col space-y-3 w-64 my-3">
           <input
+            className="border border-1 border-gray-400 rounded-sm text-xs px-3 py-1 mx-2"
             type="text"
             placeholder="Submitter Id"
             value={submitterId}
             onChange={(event) => setSubmitterId(event.target.value)}
           />
           <input
+            className="border border-1 border-gray-400 rounded-sm text-xs px-3 py-1 mx-2"
             type="text"
             placeholder="Visit Id"
             value={visit.id ?? ""}
             onChange={(event) => setVisit({ ...visit, id: event.target.value })}
           />
           <input
+            className="border border-1 border-gray-400 rounded-sm text-xs px-3 py-1 mx-2"
             type="text"
             placeholder="Client Id"
             value={visit.clientId ?? ""}
@@ -195,6 +204,7 @@ const ElectronicVisitVerification = () => {
             }
           />
           <input
+            className="border border-1 border-gray-400 rounded-sm text-xs px-3 py-1 mx-2"
             type="text"
             placeholder="Employee Id"
             value={visit.employeeId ?? ""}
@@ -202,91 +212,179 @@ const ElectronicVisitVerification = () => {
               setVisit({ ...visit, employeeId: event.target.value })
             }
           />
-          <button type="button" onClick={handleBatchLoadEVVRecords}>
+          <button
+            className="bg-gradient-to-tr from-[#0e1862]   to-[#29539B] px-3 py-1 text-gray-50 rounded-md shadow-sm"
+            type="button"
+            onClick={handleBatchLoadEVVRecords}
+          >
             Batch Load EVV Records
           </button>
         </div>
         <h6>Get EVV Record API</h6>
         <div>
           <input
+            className="border border-1 border-gray-400 rounded-sm text-xs px-3 py-1 mx-2"
             type="text"
             placeholder="Submitter Id"
             value={submitterId}
             onChange={(event) => setSubmitterId(event.target.value)}
           />
           <input
+            className="border border-1 border-gray-400 rounded-sm text-xs px-3 py-1 mx-2"
             type="text"
             placeholder="Transaction Id"
             value={transactionId}
             onChange={(event) => setTransactionId(event.target.value)}
           />
-          <button type="button" onClick={handleGetEVVRecord}>
+          <button
+            className="bg-gradient-to-tr from-[#0e1862]   to-[#29539B] px-3 py-1 text-gray-50 rounded-md shadow-sm"
+            type="button"
+            onClick={handleGetEVVRecord}
+          >
             Get EVV Record
           </button>
         </div>
-        {Object.keys(visit).length > 0 && (
-          <>
-            <h6>EVV Record</h6>
-            <div>
-              <p>Id: {visit.id}</p>
-              <p>Client Id: {visit.clientId}</p>
-              <p>Employee Id: {visit.employeeId}</p>
-            </div>
-          </>
-        )}
-        <h6>Delete EVV Record API</h6>
         <div>
-          <input
-            type="text"
-            placeholder="Submitter Id"
-            value={submitterId}
-            onChange={(event) => setSubmitterId(event.target.value)}
-          />
-          <input
-            type="text"
-            placeholder="Transaction Id"
-            value={transactionId}
-            onChange={(event) => setTransactionId(event.target.value)}
-          />
-          <button type="button" onClick={handleDeleteEVVRecord}>
-            Delete EVV Record
-          </button>
+          <table className="overflow-x-scroll w-full mx-0 my-2 table-striped bg-gradient-to-tr from-[#0e1862] to-[#29539b]">
+            <thead>
+              <tr>
+                <th className="text-[10px] px-1 tracking-tighter font-medium w-36 text-sky-200">
+                  Transaction ID
+                </th>
+                <th className="text-[10px] px-1 tracking-tighter font-medium w-36 text-sky-200">
+                  Member ID
+                </th>
+                <th className="text-[10px] px-1 tracking-tighter font-medium w-36 text-sky-200">
+                  Date of Birth
+                </th>
+                <th className="text-[10px] px-1 tracking-tighter font-medium w-36 text-sky-200">
+                  Provider Name
+                </th>
+                <th className="text-[10px] px-1 tracking-tighter font-medium w-36 text-sky-200">
+                  National Provider ID
+                </th>
+                <th className="text-[10px] px-1 tracking-tighter font-medium w-36 text-sky-200">
+                  Taxpayer ID
+                </th>
+                <th className="text-[10px] px-1 tracking-tighter font-medium w-36 text-sky-200">
+                  Provider Address
+                </th>
+                <th className="text-[10px] px-1 tracking-tighter font-medium w-36 text-sky-200">
+                  Provider ID
+                </th>
+                <th className="text-[10px] px-1 tracking-tighter font-medium w-36 text-sky-200">
+                  Provider Rate Code
+                </th>
+                <th className="text-[10px] px-1 tracking-tighter font-medium w-36 text-sky-200">
+                  Procedure Code
+                </th>
+                <th className="text-[10px] px-1 tracking-tighter font-medium w-36 text-sky-200">
+                  Procedure Mod Code
+                </th>
+                <th className="text-[10px] px-1 tracking-tighter font-medium w-36 text-sky-200">
+                  Service Start Date/Time
+                </th>
+                <th className="text-[10px] px-1 tracking-tighter font-medium w-36 text-sky-200">
+                  Service End Date/Time
+                </th>
+                <th className="text-[10px] px-1 tracking-tighter font-medium w-36 text-sky-200">
+                  Service Start Location
+                </th>
+                <th className="text-[10px] px-1 tracking-tighter font-medium w-36 text-sky-200">
+                  Service End Location
+                </th>
+                <th className="text-[10px] px-1 tracking-tighter font-medium w-36 text-sky-200">
+                  Service Provider First Name
+                </th>
+                <th className="text-[10px] px-1 tracking-tighter font-medium w-36 text-sky-200">
+                  Service Provider Last Name
+                </th>
+                <th className="text-[10px] px-1 tracking-tighter font-medium w-36 text-sky-200">
+                  Service Provider Phone Number
+                </th>
+                <th className="text-[10px] px-1 tracking-tighter font-medium w-36 text-sky-200">
+                  Caregiver ID
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              {Object.keys(visit).length > 0 && (
+                <>
+                  <tr key={visit.transactionId}>
+                    <td>{visit.keys}</td>
+                  </tr>
+                </>
+              )}
+            </tbody>
+          </table>
+          <h6>Delete EVV Record API</h6>
+          <div>
+            <input
+              className="border border-1 border-gray-400 rounded-sm text-xs px-3 py-1 mx-2"
+              type="text"
+              placeholder="Submitter Id"
+              value={submitterId}
+              onChange={(event) => setSubmitterId(event.target.value)}
+            />
+            <input
+              className="border border-1 border-gray-400 rounded-sm text-xs px-3 py-1 mx-2"
+              type="text"
+              placeholder="Transaction Id"
+              value={transactionId}
+              onChange={(event) => setTransactionId(event.target.value)}
+            />
+            <button
+              className="bg-gradient-to-tr from-[#0e1862]   to-[#29539B] px-3 py-1 text-gray-50 rounded-md shadow-sm"
+              type="button"
+              onClick={handleDeleteEVVRecord}
+            >
+              Delete EVV Record
+            </button>
+          </div>
+          <h6>New EVV Record API</h6>
+          <div>
+            <input
+              className="border border-1 border-gray-400 rounded-sm text-xs px-3 py-1 mx-2"
+              type="text"
+              placeholder="Submitter Id"
+              value={submitterId}
+              onChange={(event) => setSubmitterId(event.target.value)}
+            />
+            <input
+              className="border border-1 border-gray-400 rounded-sm text-xs px-3 py-1 mx-2"
+              type="text"
+              placeholder="Transaction Id"
+              value={transactionId}
+              onChange={(event) => setTransactionId(event.target.value)}
+            />
+            <input
+              className="border border-1 border-gray-400 rounded-sm text-xs px-3 py-1 mx-2"
+              type="text"
+              placeholder="Client Id"
+              value={visit.clientId ?? ""}
+              onChange={(event) =>
+                setVisit({ ...visit, clientId: event.target.value })
+              }
+            />
+            <input
+              className="border border-1 border-gray-400 rounded-sm text-xs px-3 py-1 mx-2"
+              type="text"
+              placeholder="Employee Id"
+              value={visit.employeeId ?? ""}
+              onChange={(event) =>
+                setVisit({ ...visit, employeeId: event.target.value })
+              }
+            />
+            <button
+              className="bg-gradient-to-tr from-[#0e1862]   to-[#29539B] px-3 py-1 text-gray-50 rounded-md shadow-sm"
+              type="button"
+              onClick={handleNewEVVRecord}
+            >
+              New EVV Record
+            </button>
+          </div>
+          {error && <p>Error: {error}</p>}
         </div>
-        \n <h6>New EVV Record API</h6>\n{" "}
-        <div>
-          <input
-            type="text"
-            placeholder="Submitter Id"
-            value={submitterId}
-            onChange={(event) => setSubmitterId(event.target.value)}
-          />
-          <input
-            type="text"
-            placeholder="Transaction Id"
-            value={transactionId}
-            onChange={(event) => setTransactionId(event.target.value)}
-          />
-          <input
-            type="text"
-            placeholder="Client Id"
-            value={visit.clientId ?? ""}
-            onChange={(event) =>
-              setVisit({ ...visit, clientId: event.target.value })
-            }
-          />
-          <input
-            type="text"
-            placeholder="Employee Id"
-            value={visit.employeeId ?? ""}
-            onChange={(event) =>
-              setVisit({ ...visit, employeeId: event.target.value })
-            }
-          />
-          <button type="button" onClick={handleNewEVVRecord}>
-            New EVV Record
-          </button>
-        </div>
-        {error && <p>Error: {error}</p>}
       </div>
     </div>
   );

@@ -44,11 +44,11 @@ export default function NestedList() {
 
   return (
     <List
-      className="sidebar"
+      className="sidebar bg-slate-700"
       component="nav"
       aria-labelledby="nested-list-subheader"
     >
-      <div className="sidebar-container">
+      <div className="sidebar-container ">
         <Link to="/">
           <ListItemButton>
             <ListItemIcon>

@@ -1,0 +1,289 @@
+openapi: 3.0.0
+info:
+    title: Electronic Visit Verification API
+    version: "0.1"
+    description: You can obtain JWT token from login API
+    termsOfService: http://developer.emedny.io/portal/terms
+    contact:
+        name: API Support
+        url: https://www.emedny.org/contacts/emedny.aspx
+        email: api-support@emedny.org
+    x-skaffolder-id-project: null
+tags:
+    - name: New EVV Record
+      description:
+          "Create a new EVV Record, will overwrite existing records with the
+          same transaction-id and submitter id "
+    - name: Batch Load EVV Records
+      description:
+          Batch Electronic Visit Verification Entry, Batch size limited to
+          100 per Call
+    - name: Delete an EVV Record
+      description: Delete an existing EVV Record
+    - name: Retrieve EVV Record
+      description: Get and existing EVV Record using the transactionId
+servers:
+    - description: Local server for testing
+      url: http://localhost:3000/api
+paths:
+    "/claims/submitter/{submitterId}/evv":
+        post:
+            tags:                                                       
+                - Batch Load EVV Records
+            responses:
+                "200":
+                    description: OK
+                "206":
+                    description: Partial Content
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    $ref: "#/components/schemas/error"
+                "401":
+                    description: Unauthorized
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    $ref: "#/components/schemas/error"
+                "403":
+                    description: Forbidden
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    $ref: "#/components/schemas/error"
+                "500":
+                    description: Internal Server Error
+            operationId: POST_claims-submitter-submitterId-evv
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: "#/components/schemas/payload"
+                required: true
+            security:
+                - api_key: ["eyJvcmciOiI1ZjExZWYwYmI2YjcwYzAwMDEzZTg5YjQiLCJpZCI6IjRlNDExZTQxMGExYTQwNDc5MWFhNTk3MThkZTYxNjE1IiwiaCI6Im11cm11cjY0In0="]
+        parameters:
+            - name: submitterId
+              in: path
+              required: true
+              schema:
+                  type: string
+    "/claims/submitter/{submitterId}/evv/{transactionId}":
+        get:
+            tags:
+                - Retrieve EVV Record
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/visit"
+                "400":
+                    description: Bad Request
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/error"
+                "401":
+                    description: Unauthorized
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/error"
+                "403":
+                    description: Forbidden
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/error"
+                "404":
+                    description: Not Found
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/error"
+                "500":
+                    description: Internal Server Error
+            description: Retrieve
+            operationId: GET_claims-submitter-submitterId-evv-transactionId
+            security:
+                - api_key: ["eyJvcmciOiI1ZjExZWYwYmI2YjcwYzAwMDEzZTg5YjQiLCJpZCI6IjRlNDExZTQxMGExYTQwNDc5MWFhNTk3MThkZTYxNjE1IiwiaCI6Im11cm11cjY0In0="]
+        delete:
+            tags:
+                - Delete an EVV Record
+            responses:
+                "204":
+                    description: No Content
+                "400":
+                    description: Bad Request
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/error"
+                "401":
+                    description: Unauthorized
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/error"
+                "403":
+                    description: Forbidden
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/error"
+                "404":
+                    description: Not Found
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/error"
+                "500":
+                    description: Internal Server Error
+            operationId: DELETE_claims-submitter-submitterId-evv-transactionId
+            security:
+                - api_key:
+                      - eyJvcmciOiI1ZjExZWYwYmI2YjcwYzAwMDEzZTg5YjQiLCJpZCI6IjRlNDExZTQxMGExYTQwNDc5MWFhNTk3MThkZTYxNjE1IiwiaCI6Im11cm11cjY0In0=
+        put:
+            tags:
+                - New EVV Record
+            responses:
+                "200":
+                    description: OK
+                "201":
+                    description: Created
+                "400":
+                    description: Bad Request
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/error"
+                "401":
+                    description: Unauthorized
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/error"
+                "403":
+                    description: Forbidden
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/error"
+                "500":
+                    description: Internal Server Error
+            operationId: PUT_claims-submitter-submitterId-evv-transactionId
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: "#/components/schemas/visit"
+                required: true
+            security:
+                - api_key: ["eyJvcmciOiI1ZjExZWYwYmI2YjcwYzAwMDEzZTg5YjQiLCJpZCI6IjRlNDExZTQxMGExYTQwNDc5MWFhNTk3MThkZTYxNjE1IiwiaCI6Im11cm11cjY0In0="]
+        parameters:
+            - name: submitterId
+              in: path
+              required: true
+              schema:
+                  type: string
+            - name: transactionId
+              in: path
+              required: true
+              schema:
+                  type: string
+    /login:
+        post:
+            x-skaffolder-ignore: true
+            summary: Login API
+            security: []
+            tags:
+                - Security
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                username:
+                                    type: string
+                                password:
+                                    type: string
+                            example:
+                                username: admin
+                                password: 62f264d7ad826f02a8af714c0a54b197935b717656b80461686d450f7b3abde4c553541515de2052b9af70f710f0cd8a1a2d3f4d60aa72608d71a63a9a93c0f5
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/User"
+    /verifyToken:
+        post:
+            x-skaffolder-ignore: true
+            summary: Verify token API
+            security: []
+            tags:
+                - Security
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                token:
+                                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/User"
+    /changePassword:
+        post:
+            x-skaffolder-ignore: true
+            summary: Change password API
+            tags:
+                - Security
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                passwordNew:
+                                    type: string
+                                passwordOld:
+                                    type: string
+            responses:
+                "200":
+                    description: OK
+components:
+    schemas: {}
+    responses: {}
+    examples: {}
+    requestBodies: {}
+    headers: {}
+    securitySchemes:
+        api_key:
+            type: apiKey
+            name: api_key
+            in: header
+        bearerAuth:
+            type: http
+            scheme: bearer
+            bearerFormat: JWT
+    links: {}
+    callbacks: {}
+
+security:
+    - bearerAuth: []

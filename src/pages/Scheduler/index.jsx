@@ -14,7 +14,6 @@ import { calculateRange, sliceData } from "../../utils/table-pagination";
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   width: "100%",
   [`&.${tableCellClasses.head}`]: {
-    backgroundColor: theme.palette.common.black,
     color: theme.palette.common.white,
     fontSize: 8,
     minWidth: "75px",
@@ -41,7 +40,7 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 }));
 
 export default function CustomizedTables() {
-	const [search, setSearch] = useState("");
+  const [search, setSearch] = useState("");
   const [shifts, setShifts] = useState(evv_params);
   const [page, setPage] = useState(1);
   const [pagination, setPagination] = useState([]);
@@ -74,115 +73,127 @@ export default function CustomizedTables() {
   };
 
   return (
-		<>
-		<div className="dashboard-content-header" style={{padding: "1.5rem"}}>
-		<h2>Scheduler</h2>
-		<div className="dashboard-content-search">
-			<input
-				type="text"
-				value={search}
-				placeholder="Search.."
-				className="dashboard-content-input"
-				onChange={(e) => __handleSearch(e)}
-			/>
-		</div>
-	</div>
-    <TableContainer component={Paper} sx={{ width: "80vw", m: 2 }}>
-      <Table aria-label="customized table">
-        <TableHead sx={{ bGColor: "#000000" }}>
-          <TableRow>
-            <StyledTableCell align="right">Transaction Id</StyledTableCell>
-            <StyledTableCell align="right">Member Id</StyledTableCell>
-            <StyledTableCell align="right">Date of Birth</StyledTableCell>
-            <StyledTableCell align="right">Provider Name</StyledTableCell>
-            <StyledTableCell align="right">
-              National Provider ID
-            </StyledTableCell>
-            <StyledTableCell align="right">Provider ID</StyledTableCell>
-            <StyledTableCell align="right">Taxpayer ID</StyledTableCell>
-            <StyledTableCell align="right">Provider Address</StyledTableCell>
-            <StyledTableCell align="right">Provider Rate Code</StyledTableCell>
-            <StyledTableCell align="right">Procedure Code</StyledTableCell>
-            <StyledTableCell align="right">Procedure Mod Code</StyledTableCell>
-            <StyledTableCell align="right">
-              Service Start Date/Time
-            </StyledTableCell>
-            <StyledTableCell align="right">
-              Service End Date/Time
-            </StyledTableCell>
-            <StyledTableCell align="right">
-              Service Start Location
-            </StyledTableCell>
-            <StyledTableCell align="right">
-              Service End Location
-            </StyledTableCell>
-            <StyledTableCell align="right">
-              Service Provider First Name
-            </StyledTableCell>
-            <StyledTableCell align="right">
-              Service Provider Last Name
-            </StyledTableCell>
-            <StyledTableCell align="right">
-              Service Provider Phone Number
-            </StyledTableCell>
-            <StyledTableCell align="right">Caregiver ID</StyledTableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {rows.map((row) => (
-            <StyledTableRow key={row.transactionId}>
+    <>
+      <div className="dashboard-content-header" style={{ padding: "1.5rem" }}>
+        <h2>Scheduler</h2>
+        <div className="dashboard-content-search">
+          <input
+            type="text"
+            value={search}
+            placeholder="Search.."
+            className="dashboard-content-input"
+            onChange={(e) => __handleSearch(e)}
+          />
+        </div>
+      </div>
+      <TableContainer component={Paper} sx={{ width: "80vw", m: 2 }}>
+        <Table aria-label="customized table">
+          <TableHead className="bg-gradient-to-t from-[#1E3B70]   to-[#29539B]">
+            <TableRow className="text-[lightblue]">
+              <StyledTableCell align="right">Transaction Id</StyledTableCell>
+              <StyledTableCell align="right">Member Id</StyledTableCell>
+              <StyledTableCell align="right">Date of Birth</StyledTableCell>
+              <StyledTableCell align="right">Provider Name</StyledTableCell>
               <StyledTableCell align="right">
-                {row.transactionId}
+                National Provider ID
               </StyledTableCell>
-              <StyledTableCell align="right">{row.memberId}</StyledTableCell>
-              <StyledTableCell align="right">{row.dateOfBirth}</StyledTableCell>
+              <StyledTableCell align="right">Provider ID</StyledTableCell>
+              <StyledTableCell align="right">Taxpayer ID</StyledTableCell>
+              <StyledTableCell align="right">Provider Address</StyledTableCell>
               <StyledTableCell align="right">
-                {row.providerName}
+                Provider Rate Code
+              </StyledTableCell>
+              <StyledTableCell align="right">Procedure Code</StyledTableCell>
+              <StyledTableCell align="right">
+                Procedure Mod Code
               </StyledTableCell>
               <StyledTableCell align="right">
-                {row.nationalProviderId}
-              </StyledTableCell>
-              <StyledTableCell align="right">{row.providerId}</StyledTableCell>
-              <StyledTableCell align="right">{row.taxPayerId}</StyledTableCell>
-              <StyledTableCell align="right">
-                {row.providerAddress}
+                Service Start Date/Time
               </StyledTableCell>
               <StyledTableCell align="right">
-                {row.providerRateCode}
+                Service End Date/Time
               </StyledTableCell>
               <StyledTableCell align="right">
-                {row.procedureCode}
+                Service Start Location
               </StyledTableCell>
               <StyledTableCell align="right">
-                {row.procedureModCode}
+                Service End Location
               </StyledTableCell>
               <StyledTableCell align="right">
-                {row.serviceStartDateTime}
+                Service Provider First Name
               </StyledTableCell>
               <StyledTableCell align="right">
-                {row.serviceEndDateTime}
+                Service Provider Last Name
               </StyledTableCell>
               <StyledTableCell align="right">
-                {row.serviceStartLocation}
+                Service Provider Phone Number
               </StyledTableCell>
-              <StyledTableCell align="right">
-                {row.serviceEndLocation}
-              </StyledTableCell>
-              <StyledTableCell align="right">
-                {row.serviceProviderFirstName}
-              </StyledTableCell>
-              <StyledTableCell align="right">
-                {row.serviceProviderLastName}
-              </StyledTableCell>
-              <StyledTableCell align="right">
-                {row.serviceProviderPhoneNumber}
-              </StyledTableCell>
-              <StyledTableCell align="right">{row.caregiverId}</StyledTableCell>
-            </StyledTableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
-		</>
+              <StyledTableCell align="right">Caregiver ID</StyledTableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {rows.map((row) => (
+              <StyledTableRow key={row.transactionId}>
+                <StyledTableCell align="right">
+                  {row.transactionId}
+                </StyledTableCell>
+                <StyledTableCell align="right">{row.memberId}</StyledTableCell>
+                <StyledTableCell align="right">
+                  {row.dateOfBirth}
+                </StyledTableCell>
+                <StyledTableCell align="right">
+                  {row.providerName}
+                </StyledTableCell>
+                <StyledTableCell align="right">
+                  {row.nationalProviderId}
+                </StyledTableCell>
+                <StyledTableCell align="right">
+                  {row.providerId}
+                </StyledTableCell>
+                <StyledTableCell align="right">
+                  {row.taxPayerId}
+                </StyledTableCell>
+                <StyledTableCell align="right">
+                  {row.providerAddress}
+                </StyledTableCell>
+                <StyledTableCell align="right">
+                  {row.providerRateCode}
+                </StyledTableCell>
+                <StyledTableCell align="right">
+                  {row.procedureCode}
+                </StyledTableCell>
+                <StyledTableCell align="right">
+                  {row.procedureModCode}
+                </StyledTableCell>
+                <StyledTableCell align="right">
+                  {row.serviceStartDateTime}
+                </StyledTableCell>
+                <StyledTableCell align="right">
+                  {row.serviceEndDateTime}
+                </StyledTableCell>
+                <StyledTableCell align="right">
+                  {row.serviceStartLocation}
+                </StyledTableCell>
+                <StyledTableCell align="right">
+                  {row.serviceEndLocation}
+                </StyledTableCell>
+                <StyledTableCell align="right">
+                  {row.serviceProviderFirstName}
+                </StyledTableCell>
+                <StyledTableCell align="right">
+                  {row.serviceProviderLastName}
+                </StyledTableCell>
+                <StyledTableCell align="right">
+                  {row.serviceProviderPhoneNumber}
+                </StyledTableCell>
+                <StyledTableCell align="right">
+                  {row.caregiverId}
+                </StyledTableCell>
+              </StyledTableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+    </>
   );
 }

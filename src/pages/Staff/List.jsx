@@ -62,13 +62,13 @@ function StaffList() {
         </div>
 
         <table>
-          <thead>
-            <th>ID</th>
-            <th>DATE</th>
-            <th>STATUS</th>
-            <th>COSTUMER</th>
-            <th>PRODUCT</th>
-            <th>REVENUE</th>
+          <thead className="bg-gradient-to-t from-[#1E3B70]   to-[#29539B]">
+            <th className="text-blue-200">ID</th>
+            <th className="text-blue-200">DATE</th>
+            <th className="text-blue-200">STATUS</th>
+            <th className="text-blue-200">COSTUMER</th>
+            <th className="text-blue-200">PRODUCT</th>
+            <th className="text-blue-200">REVENUE</th>
           </thead>
 
           {visits.length !== 0 ? (
